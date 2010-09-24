@@ -1,0 +1,44 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=3252
+
+Repository:
+  https://bitbucket.org/ns9tks/vim-l9/
+
+Issues:
+  http://bitbucket.org/ns9tks/vim-l9/issues/
+
+Download latest(development) version
+  https://bitbucket.org/ns9tks/vim-l9/get/tip.zip
+
+
+==============================================================================
+INTRODUCTION                                                 *l9-introduction*
+
+l9 is a Vim-script library, which provides some utility functions and commands
+for programming in Vim.
+
+==============================================================================
+ INSTALLATION                                                *l9-installation*
+
+Put all files into your runtime directory. If you have the zip file, extract
+it to your runtime directory.
+
+You should place the files as follows:
+>
+        <your runtime directory>/plugin/l9.vim
+        <your runtime directory>/doc/l9.txt
+        ...
+<
+If you are disgusted to make your runtime directory confused with a lot of
+plugins, put each of the plugins into a directory individually and just add
+the directory path to 'runtimepath'. It's easy to uninstall plugins.
+
+Then update your help tags files to enable help for this plugin. See
+|add-local-help| for details.
+
+==============================================================================
+USAGE                                                               *l9-usage*
+
+See source code.
+
+==============================================================================
+

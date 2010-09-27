@@ -43,6 +43,10 @@ See source code.
 ==============================================================================
 CHANGELOG                                                       *l9-changelog*
 
+1.0.1:
+  - Fixed a bug that floating point numbers weren't evaluated correctly and
+    caused errors on some non-English locales.
+
 1.0:
   - First release.
 

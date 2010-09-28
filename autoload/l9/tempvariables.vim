@@ -4,7 +4,7 @@
 "=============================================================================
 " LOAD GUARD {{{1
 
-if !l9#guardScriptLoading(expand('<sfile>:p'), 702, l9#getVersion())
+if !l9#guardScriptLoading(expand('<sfile>:p'), 0, 0, [])
   finish
 endif
 
@@ -13,20 +13,17 @@ endif
 " TEMPORARY VARIABLES {{{1
 
 "
-let s:varsMap = {}
+let s:origMap = {}
 
 " set temporary variables
 function l9#tempvariables#set(group, name, value)
-  if !exists('s:varsMap[a:group]')
-    let s:varsMap[a:group] = {'vars': {}, 'active': 1}
+  if !exists('s:origMap[a:group]')
+    let s:origMap[a:group] = {}
   endif
-  if !exists('s:varsMap[a:group].vars[a:name]')
-    let s:varsMap[a:group].vars[a:name] = {'original': eval(a:name)}
+  if !exists('s:origMap[a:group][a:name]')
+    let s:origMap[a:group][a:name] = eval(a:name)
   endif
-  let s:varsMap[a:group].vars[a:name].temp = a:value
-  if s:varsMap[a:group].active
-    execute 'let ' . a:name . ' = a:value'
-  endif
+  execute 'let ' . a:name . ' = a:value'
 endfunction
 
 " set temporary variables
@@ -37,29 +34,24 @@ function l9#tempvariables#setList(group, variables)
   endfor
 endfunction
 
-" swap temporary variables and original variables
-function l9#tempvariables#swap(group)
-  if s:varsMap[a:group].active
-    let variables = map(copy(s:varsMap[a:group].vars), 'v:val.original')
-  else
-    let variables = map(copy(s:varsMap[a:group].vars), 'v:val.temp')
+" get temporary variables
+function l9#tempvariables#getList(group)
+  if !exists('s:origMap[a:group]')
+    return []
   endif
-  for [name, value] in items(variables)
-    execute 'let ' . name . ' = value'
-    unlet value " to avoid E706
-  endfor
-  let s:varsMap[a:group].active = !s:varsMap[a:group].active
+  return map(keys(s:origMap[a:group]), '[v:val, eval(v:val)]')
 endfunction
 
 " restore original variables and clean up.
 function l9#tempvariables#end(group)
-  if !exists('s:varsMap[a:group]')
+  if !exists('s:origMap[a:group]')
     return
   endif
-  if s:varsMap[a:group].active
-    call l9#tempvariables#swap(a:group)
-  endif
-  unlet s:varsMap[a:group]
+  for [name, value] in items(s:origMap[a:group])
+    execute 'let ' . name . ' = value'
+    unlet value " to avoid E706
+  endfor
+  unlet s:origMap[a:group]
 endfunction
 
 " }}}1

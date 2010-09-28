@@ -4,7 +4,7 @@
 "=============================================================================
 " LOAD GUARD {{{1
 
-if !l9#guardScriptLoading(expand('<sfile>:p'), 702, 100) || !has('python')
+if !l9#guardScriptLoading(expand('<sfile>:p'), 0, 0, ['has("python")'])
   finish
 endif
 
